@@ -16,3 +16,5 @@ const authFeature = createFeature({
     }))
   ),
 })
+
+export const { name: authFeatureKey, reducer: authReducer } = authFeature
