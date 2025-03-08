@@ -13,7 +13,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   register(data: RegisterRequestInterface): Observable<CurrentUserInterface> {
-    const url = environment.baseUrl + 'http://localhost:3000/api/users'
+    const url = environment.baseUrl + '/users'
     return this.http
       .post<AuthResponseInterface>(url, data)
       .pipe(map((response: AuthResponseInterface) => response.user))

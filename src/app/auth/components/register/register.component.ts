@@ -3,9 +3,8 @@ import { Component } from '@angular/core'
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
 import { RouterLink } from '@angular/router'
 import { Store } from '@ngrx/store'
-import { register } from '../../store/actions'
+import { authActions } from '../../store/actions'
 import { selectIsSubmitting } from '../../store/reducers'
-import { AuthStateInterface } from '../../types/auth-state.interface'
 import { RegisterRequestInterface } from '../../types/register-request.interface'
 
 @Component({
@@ -22,16 +21,13 @@ export class RegisterComponent {
   })
 
   isSubmitting$ = this.store.select(selectIsSubmitting)
-  constructor(
-    private fb: FormBuilder,
-    private store: Store<{ auth: AuthStateInterface }>
-  ) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   onSubmit() {
     console.log('Form', this.form.getRawValue())
     const request: RegisterRequestInterface = {
       user: this.form.getRawValue(),
     }
-    this.store.dispatch(register({ request }))
+    this.store.dispatch(authActions.register({ request }))
   }
 }
