@@ -4,6 +4,9 @@ import { authActions } from './actions'
 
 const initialState: AuthStateInterface = {
   isSubmitting: false,
+  isLoading: false,
+  currentUser: undefined,
+  validationErrors: null,
 }
 
 // A feature state is a state object that is used to store a specific part of
