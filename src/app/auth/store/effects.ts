@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http'
 import { inject } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, map, of, switchMap } from 'rxjs'
@@ -23,10 +24,18 @@ export const registerEffect = createEffect(
         return authService.register(request).pipe(
           // the map function will take the result of the register function
           // and it will return a new action of type registerSuccess
-          map((currentUser: CurrentUserInterface) => authActions.registerSuccess({ currentUser })),
+          map((currentUser: CurrentUserInterface) =>
+            authActions.registerSuccess({ currentUser })
+          ),
           // the catchError function will catch any error that might happen
           // and it will return a new action of type registerFailure
-          catchError(() => of(authActions.registerFailure()))
+          catchError((errorResponse: HttpErrorResponse) =>
+            of(
+              authActions.registerFailure({
+                errors: errorResponse.error.errors,
+              })
+            )
+          )
         )
       })
     )
