@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http'
 import { inject } from '@angular/core'
+import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { catchError, map, of, switchMap } from 'rxjs'
+import { catchError, map, of, switchMap, tap } from 'rxjs'
 import { PersistanceService } from '../../shared/services/persistance.service'
 import { CurrentUserInterface } from '../../shared/types/current-user.interface'
 import { AuthService } from '../services/auth.service'
@@ -49,4 +50,14 @@ export const registerEffect = createEffect(
   // this is a flag that will tell ngrx that this effect is a functional effect
   // and it should not keep any state
   { functional: true }
+)
+
+export const redirectAfterRegisterEffect = createEffect(
+  (actions$ = inject(Actions), router = inject(Router)) => {
+    return actions$.pipe(
+      ofType(authActions.registerSuccess),
+      tap(() => router.navigateByUrl('/'))
+    )
+  },
+  { functional: true, dispatch: false }
 )
