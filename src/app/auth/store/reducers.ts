@@ -54,6 +54,14 @@ const authFeature = createFeature({
       // object, and then setting the `isSubmitting` property to `true`.
       ...state,
       isSubmitting: true,
+      validationErrors: null,
+    })),
+    on(authActions.registerSuccess, (state, action) => ({
+      // The new state is created by spreading the current state into a new
+      // object, and then setting the `isSubmitting` property to `true`.
+      ...state,
+      isSubmitting: false,
+      currentUser: action.currentUser,
     }))
   ),
 })
