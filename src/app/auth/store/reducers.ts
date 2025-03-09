@@ -4,8 +4,6 @@ import { AuthStateInterface } from '../types/auth-state.interface'
 import { authActions } from './actions'
 
 // Define the initial state for the authentication feature.
-// This state includes properties for tracking form submission status,
-// loading status, the current user, and any validation errors.
 const initialState: AuthStateInterface = {
   isSubmitting: false,
   isLoading: false,
@@ -14,51 +12,78 @@ const initialState: AuthStateInterface = {
 }
 
 // Create a feature state for authentication using NgRx's createFeature function.
-// This feature state is identified by the name 'auth' and is associated with
-// a reducer function that handles actions related to authentication.
 const authFeature = createFeature({
   name: 'auth',
   reducer: createReducer(
     initialState,
+
     // Handle the register action by setting isSubmitting to true and clearing validation errors.
     on(authActions.register, (state) => ({
       ...state,
       isSubmitting: true,
       validationErrors: null,
     })),
+
     // Handle the registerSuccess action by updating the current user and setting isSubmitting to false.
     on(authActions.registerSuccess, (state, action) => ({
       ...state,
       isSubmitting: false,
       currentUser: action.currentUser,
     })),
+
     // Handle the registerFailure action by updating validation errors and setting isSubmitting to false.
     on(authActions.registerFailure, (state, action) => ({
       ...state,
       isSubmitting: false,
       validationErrors: action.errors,
     })),
+
+    // Handle the login action by setting isSubmitting to true and clearing validation errors.
     on(authActions.login, (state) => ({
       ...state,
       isSubmitting: true,
       validationErrors: null,
     })),
-    // Handle the registerSuccess action by updating the current user and setting isSubmitting to false.
+
+    // Handle the loginSuccess action by updating the current user and setting isSubmitting to false.
     on(authActions.loginSuccess, (state, action) => ({
       ...state,
       isSubmitting: false,
       currentUser: action.currentUser,
     })),
-    // Handle the registerFailure action by updating validation errors and setting isSubmitting to false.
+
+    // Handle the loginFailure action by updating validation errors and setting isSubmitting to false.
     on(authActions.loginFailure, (state, action) => ({
       ...state,
       isSubmitting: false,
       validationErrors: action.errors,
     })),
+
+    // Handle the getCurrentUser action by setting isLoading to true.
+    on(authActions.getCurrentUser, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+
+    // Handle the getCurrentUserSuccess action by updating the current user and setting isLoading to false.
+    on(authActions.getCurrentUserSuccess, (state, action) => ({
+      ...state,
+      isLoading: false,
+      currentUser: action.currentUser,
+    })),
+
+    // Handle the getCurrentUserFailure action by updating validation errors and setting isLoading to false.
+    on(authActions.getCurrentUserFailure, (state) => ({
+      ...state,
+      isLoading: false,
+      currentUser: null,
+    })),
+
+    // Handle the router navigation action by clearing validation errors.
     on(routerNavigationAction, (state) => ({
       ...state,
       validationErrors: null,
-    }))
+    })),
   ),
 })
 
@@ -75,3 +100,4 @@ export const {
   selectCurrentUser,
   selectValidationErrors,
 } = authFeature
+
