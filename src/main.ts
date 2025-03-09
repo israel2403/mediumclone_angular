@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http'
+import { provideHttpClient, withInterceptors } from '@angular/common/http'
 import { isDevMode } from '@angular/core'
 import { bootstrapApplication } from '@angular/platform-browser'
 import { provideRouter } from '@angular/router'
@@ -10,10 +10,11 @@ import { AppComponent } from './app/app.component'
 import { appRoutes } from './app/app.routes'
 import * as authEffects from './app/auth/store/effects'
 import { authFeatureKey, authReducer } from './app/auth/store/reducers'
+import { authInterceptors } from './app/shared/services/auth-interceptor'
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptors])),
     provideRouter(appRoutes),
     provideStore({
       router: routerReducer,
