@@ -1,4 +1,4 @@
-import { createActionGroup, props } from '@ngrx/store'
+import { createActionGroup, emptyProps, props } from '@ngrx/store'
 import { CurrentUserInterface } from '../../shared/types/current-user.interface'
 import { BackendErrorsInterface } from '../types/backend-errors.interface'
 import { LoginRequestInterface } from '../types/login-request.interface'
@@ -14,5 +14,9 @@ export const authActions = createActionGroup({
     Login: props<{ request: LoginRequestInterface }>(),
     'Login Success': props<{ currentUser: CurrentUserInterface }>(),
     'Login failure': props<{ errors: BackendErrorsInterface }>(),
+
+    'Get Current User': emptyProps(),
+    'Get Current User Success': props<{ currentUser: CurrentUserInterface }>(),
+    'Get Current User Failure': emptyProps(),
   },
 })
