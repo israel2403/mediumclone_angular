@@ -4,7 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
 import { RouterLink } from '@angular/router'
 import { Store } from '@ngrx/store'
 import { authActions } from '../../store/actions'
-import { selectIsSubmitting } from '../../store/reducers'
+import { selectIsSubmitting, selectValidationErrors } from '../../store/reducers'
 import { RegisterRequestInterface } from '../../types/register-request.interface'
 
 @Component({
@@ -21,6 +21,7 @@ export class RegisterComponent {
   })
 
   isSubmitting$ = this.store.select(selectIsSubmitting)
+  backendErrors$ = this.store.select(selectValidationErrors)
   constructor(private fb: FormBuilder, private store: Store) {}
 
   onSubmit() {
