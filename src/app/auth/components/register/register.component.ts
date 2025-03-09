@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
 import { RouterLink } from '@angular/router'
 import { Store } from '@ngrx/store'
 import { combineLatest } from 'rxjs'
+import { BackendErrorMessagesComponent } from '../../../shared/components/backend-error-messages/backend-error-messages.component'
 import { authActions } from '../../store/actions'
 import {
   selectIsSubmitting,
@@ -15,7 +16,7 @@ import { RegisterRequestInterface } from '../../types/register-request.interface
   selector: 'mc-register',
   templateUrl: './register.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, CommonModule],
+  imports: [ReactiveFormsModule, RouterLink, CommonModule, BackendErrorMessagesComponent],
 })
 export class RegisterComponent {
   form = this.fb.nonNullable.group({

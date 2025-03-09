@@ -24,9 +24,9 @@ export const registerEffect = createEffect(
         return authService.register(request).pipe(
           // the map function will take the result of the register function
           // and it will return a new action of type registerSuccess
-          map((currentUser: CurrentUserInterface) =>
-            authActions.registerSuccess({ currentUser })
-          ),
+          map((currentUser: CurrentUserInterface) => {
+            return authActions.registerSuccess({ currentUser })
+          }),
           // the catchError function will catch any error that might happen
           // and it will return a new action of type registerFailure
           catchError((errorResponse: HttpErrorResponse) =>
