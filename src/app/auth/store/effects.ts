@@ -2,12 +2,17 @@ import { HttpErrorResponse } from '@angular/common/http'
 import { inject } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, map, of, switchMap } from 'rxjs'
+import { PersistanceService } from '../../shared/services/persistance.service'
 import { CurrentUserInterface } from '../../shared/types/current-user.interface'
 import { AuthService } from '../services/auth.service'
 import { authActions } from './actions'
 
 export const registerEffect = createEffect(
-  (actions$ = inject(Actions), authService = inject(AuthService)) => {
+  (
+    actions$ = inject(Actions),
+    authService = inject(AuthService),
+    persistanceService = inject(PersistanceService)
+  ) => {
     // this is an effect that will be triggered when the register action is dispatched
     // the effect will call the register function from the auth service
     // and then based on the result of the function it will dispatch either
@@ -25,6 +30,7 @@ export const registerEffect = createEffect(
           // the map function will take the result of the register function
           // and it will return a new action of type registerSuccess
           map((currentUser: CurrentUserInterface) => {
+            persistanceService.set('accessToken', currentUser.token)
             return authActions.registerSuccess({ currentUser })
           }),
           // the catchError function will catch any error that might happen
