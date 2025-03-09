@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
+import { RouterLink } from '@angular/router'
 import { Store } from '@ngrx/store'
 import { combineLatest } from 'rxjs'
 import { selectCurrentUser } from '../../../auth/store/reducers'
@@ -7,6 +9,7 @@ import { selectCurrentUser } from '../../../auth/store/reducers'
   selector: 'mc-top-bar',
   templateUrl: './top-bar.component.html',
   standalone: true,
+  imports: [RouterLink, CommonModule],
 })
 export class TopBarComponent {
   data$ = combineLatest({
