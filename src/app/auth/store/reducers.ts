@@ -1,3 +1,4 @@
+import { routerNavigationAction } from '@ngrx/router-store'
 import { createFeature, createReducer, on } from '@ngrx/store'
 import { AuthStateInterface } from '../types/auth-state.interface'
 import { authActions } from './actions'
@@ -53,6 +54,10 @@ const authFeature = createFeature({
       ...state,
       isSubmitting: false,
       validationErrors: action.errors,
+    })),
+    on(routerNavigationAction, (state) => ({
+      ...state,
+      validationErrors: null,
     }))
   ),
 })
@@ -70,4 +75,3 @@ export const {
   selectCurrentUser,
   selectValidationErrors,
 } = authFeature
-

@@ -3,6 +3,7 @@ import { isDevMode } from '@angular/core'
 import { bootstrapApplication } from '@angular/platform-browser'
 import { provideRouter } from '@angular/router'
 import { provideEffects } from '@ngrx/effects'
+import { provideRouterStore, routerReducer } from '@ngrx/router-store'
 import { provideState, provideStore } from '@ngrx/store'
 import { provideStoreDevtools } from '@ngrx/store-devtools'
 import { AppComponent } from './app/app.component'
@@ -14,7 +15,10 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
     provideRouter(appRoutes),
-    provideStore(),
+    provideStore({
+      router: routerReducer,
+    }),
+    provideRouterStore(),
     provideState(authFeatureKey, authReducer),
     provideEffects(authEffects),
     provideStoreDevtools({
