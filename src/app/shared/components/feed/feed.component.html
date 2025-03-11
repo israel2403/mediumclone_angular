@@ -22,6 +22,7 @@
                 TAG LIST
             </a>
         </div>
-        PAGINATION
+        <mc-pagination [total]="data.data.articlesCount" [limit]="limit" [url]="baseUrl"
+            [currentPage]="currentPage">{{data.data.articlesCount}}</mc-pagination>
     </div>
 </ng-container>
