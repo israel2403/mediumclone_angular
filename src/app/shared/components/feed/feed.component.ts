@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common'
-import { Component, Input, OnInit } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { Store } from '@ngrx/store'
 import queryString from 'query-string'
@@ -25,7 +31,7 @@ import { selectError, selectFeedData, selectIsLoading } from './store/reducers'
     TagListComponent,
   ],
 })
-export class FeedComponent implements OnInit {
+export class FeedComponent implements OnInit, OnChanges {
   @Input() apiUrl: string = ''
 
   limit = environment.limit
@@ -51,6 +57,18 @@ export class FeedComponent implements OnInit {
       this.currentPage = Number(params['page'] || '1')
       this.fetchFeed()
     })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Check if the `apiUrl` input property has changed and it's not the first change
+    const isApiUrlChanged =
+      !changes['apiUrl'].firstChange &&
+      changes['apiUrl'].currentValue !== changes['apiUrl'].previousValue
+
+    // If `apiUrl` has changed, fetch the new feed data
+    if (isApiUrlChanged) {
+      this.fetchFeed()
+    }
   }
 
   fetchFeed() {
