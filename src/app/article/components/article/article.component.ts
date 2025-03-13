@@ -19,7 +19,13 @@ import {
   selector: 'mc-article',
   templateUrl: './article.component.html',
   standalone: true,
-  imports: [CommonModule, RouterLink, LoadingComponent, ErrorMessageComponent, TagListComponent ],
+  imports: [
+    CommonModule,
+    RouterLink,
+    LoadingComponent,
+    ErrorMessageComponent,
+    TagListComponent,
+  ],
 })
 export class ArticleComponent implements OnInit {
   slug = this.route.snapshot.paramMap.get('slug') ?? ''
@@ -34,7 +40,7 @@ export class ArticleComponent implements OnInit {
         )
       ),
   }).pipe(
-    map(({article, currentUser}) => {
+    map(({ article, currentUser }) => {
       if (!article || !currentUser) {
         return false
       }
@@ -52,5 +58,9 @@ export class ArticleComponent implements OnInit {
   constructor(private store: Store, private route: ActivatedRoute) {}
   ngOnInit(): void {
     this.store.dispatch(articleActions.getArticle({ slug: this.slug }))
+  }
+
+  deleteArticle() {
+    this.store.dispatch(articleActions.deleteArticle({ slug: this.slug }))
   }
 }
