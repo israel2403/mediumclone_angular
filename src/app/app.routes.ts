@@ -25,6 +25,13 @@ export const appRoutes: Routes = [
     loadChildren: () =>
       import('./tag-feed/tag-feed.route').then((m) => m.routes),
   },
+  // Note that we put /articles/new before /articles/:slug because if we put it
+  // the other way around, the router will try to match new as a slug
+  {
+    path: 'articles/new',
+    loadChildren: () =>
+      import('./create-article/create-article.routes').then((m) => m.routes),
+  },
   {
     path: 'articles/:slug',
     loadChildren: () =>
